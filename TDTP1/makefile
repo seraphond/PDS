@@ -3,10 +3,11 @@ CFLAGS=-Wall -Werror -ansi
 CFLAGS+=-D_XOPEN_SOURCE=500
 CFLAGS+=-g
 
-prlimit:prlimit.c
-	$(CC) prlimit.c -o prlimit $(CFLAGS)
-
+prlimit.exe:prlimit.c
+	$(CC) prlimit.c -o prlimit.exe $(CFLAGS)
+Maccess.exe:Maccess.c
+	$(CC)Maccess.c -o Maccess.exe $(CFLAGS)
 
 clean:
-	rm -rf *.o
+	rm -rf *.exe
  
