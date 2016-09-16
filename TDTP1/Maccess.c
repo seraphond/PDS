@@ -19,7 +19,7 @@ int main(int argc,char*argv[]){
     perror("Errreur de syntaxe , trop d'arguments");
     usage();
     exit(1);
-    else if(argc < 3){
+    }else if(argc < 3){
         perror("Argument(s) manquant");
         usage();
         exit(1);
@@ -32,7 +32,6 @@ int main(int argc,char*argv[]){
         usage();
         exit(1);
     }
-  }
   /*Début du traitement et vérification de l'utilisation des modes*/
   else{
     nom_fic = argv[2];
@@ -64,4 +63,5 @@ int main(int argc,char*argv[]){
         printf("Tu as le droit\n");
     }
     return 0;
+}
 }
