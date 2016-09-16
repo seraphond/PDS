@@ -1,0 +1,17 @@
+#!/bin/bash
+
+if[ -z $1]
+then
+	echo " Hey bro le fichier existe déjà , heureusement que je vérifie!"
+else
+	echo "#include<stdlib.h>
+#include<stdio.h>
+
+int main(argc,argv[]){
+
+
+    return 0;
+}
+">>$1
+
+fi
