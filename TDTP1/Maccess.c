@@ -18,19 +18,19 @@ int main(int argc,char*argv[]){
   if(argc > 4){
     perror("Errreur de syntaxe , trop d'arguments");
     usage();
-    exit(1);
+    exit(EXIT_FAILURE);
     }else if(argc < 3){
         perror("Argument(s) manquant");
         usage();
-        exit(1);
+        exit(EXIT_FAILURE);
     }else if(strcmp(argv[2],"-v") == 0){
         perror("Nom du ficher ou mode manquant");
         usage();
-        exit(1);
+        exit(EXIT_FAILURE);
     }else if((argc == 4) && (strcmp(argv[3],"-v") != 0)){
         perror("Options utilisés invalides");
         usage();
-        exit(1);
+        exit(EXIT_FAILURE);
     }
   /*Début du traitement et vérification de l'utilisation des modes*/
   else{
@@ -47,7 +47,7 @@ int main(int argc,char*argv[]){
       errnum = errno;
     }else{
       perror("Erreur dans l'utilisation des modes\n");
-      exit(1);
+      exit(EXIT_FAILURE);
     }
 
     /*Résultat pour l'utilisateur*/
@@ -55,13 +55,13 @@ int main(int argc,char*argv[]){
         /*Gestion d'une erreur potentielle d'access()*/
         if ((errnum != 0) && ((argc == 4) && (strcmp(argv[3],"-v") == 0))) {
             fprintf(stderr, "%s\n",strerror(errnum));
-            exit(2);
+            exit(EXIT_FAILURE);
         }else{
         printf("Tu n'a pas le droit\n");
         }
     }else{
         printf("Tu as le droit\n");
     }
-    return 0;
+    return EXIT_SUCCESS;
 }
 }
