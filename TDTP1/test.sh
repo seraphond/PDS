@@ -15,6 +15,6 @@ echo'#argument manquant'&>>Maccess_log.txt
 echo'#trop de liens symboliques'&>>Maccess_log.txt
 ln -s l1 l2
 ln -s l2 l1
-./Maccess.exe -v -x l1
+./Maccess.exe -x l1 -v
 
 #je n'est pas testé le cas ou le nom de fichier est trop long
