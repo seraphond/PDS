@@ -91,7 +91,7 @@ int main(int argc,char* argv[]){
     int bflag,Lflag=0;
 
     opterr=0;
-    while((c=getopt(argc,argv,"bLB:"))!=-1) {
+    while((c=getopt(argc,argv,"bL"))!=-1) {
         switch (c) {
             case 'b':
                 bflag = 1;
