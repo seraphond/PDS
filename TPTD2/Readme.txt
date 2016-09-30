@@ -9,9 +9,10 @@
 
 //Commande :
 
-Commande de compilation et de test : make all ou juste make.
+Commande de compilation et de test : make all (ou juste make)
 Commande de compilation : make mdu.beta
 Commande de test : make test
+Nettoyage : make clean
 
 
 //Commentaire :
