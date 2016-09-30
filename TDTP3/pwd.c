@@ -7,6 +7,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+
+
+int snprintf(char *STR, size_t SIZE, const char *FORMAT, ...);
+
 /*Exercice 8*/
 void pwd1(void){
     char result[PATH_MAX];
@@ -16,7 +20,7 @@ void pwd1(void){
 
 
 /*Exercice 9*/
-int is_root(char *pathname){
+int is_root(const char *pathname){
 
     static int root_init = 1;
     static struct stat rootstat;
@@ -48,7 +52,7 @@ void print_name_in_parent(const char *node, const char *parent){
     /*assert*/
     while ((dire = readdir(dirp)) != NULL){
         if(dire->d_ino == st.st_ino){
-            printf("%s\n", dire->d_name);
+            printf("%s", dire->d_name);
             closedir(dirp);
             return;
         }
@@ -82,5 +86,7 @@ void pwd2(){
 
 
 int main(int argc, char const *argv[]) {
+    pwd2();
+    printf("\n");
     return 0;
 }
