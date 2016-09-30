@@ -5,9 +5,17 @@
 #include <sys/stat.h>
 #include <sys/type.h>
 
-static int taille_buffer=1024;
 
-mtail(char * path, nb_line n){
+
+mtail(char * path, int n){
+    FILE* file=NULL;
+    int buffer=n;
+    int nb_ligne=0;
+    char *contenu_ligne;
+    file=open(path,O_RDONLY);
+    lseek(file,-buffer,SEEK_END);
+
+
 
 }
 
