@@ -12,7 +12,7 @@
 #include <assert.h>
 #include <string.h>
 
-#define BUFFER_SIZE 4096S
+#define BUFFER_SIZE 4096
 
 
 int compteur_carac(const char * pathname) {
