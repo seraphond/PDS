@@ -7,10 +7,13 @@ CFLAGS += -g
 all: realclean mtail.beta
 
 exe:
-	./mtail.beta mtail.c 2
+	./mtail-17-18 mtail-16.c 8
 
-mtail.beta:
-	${CC} ${CFLAGS} -o mtail.beta mtail.c
+mtail-16:
+	${CC} ${CFLAGS} -o mtail-16 mtail-16.c
+
+mtail-17-18:
+	${CC} ${CFLAGS} -o mtail-17-18 mtail-17-18.c
 
 realclean:
 	rm *.beta || true
