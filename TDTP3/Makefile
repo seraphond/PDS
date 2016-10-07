@@ -4,7 +4,7 @@ CFLAGS  = -Wall -Werror -ansi -pedantic
 CFLAGS += -D_XOPEN_SOURCE=500
 CFLAGS += -g
 
-all: realclean mtail.beta
+all: realclean mtail-16 mtail-17-18
 
 exe:
 	./mtail-17-18 mtail-16.c 8
