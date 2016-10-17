@@ -1,0 +1,2 @@
+On peut observer que quand la taille du buffer augmente, le temps d'execution diminue.
+Ce qui est logique car la taille du buffer est inversement proportionnelle au nombre d'appel a read (appel systèmes).
