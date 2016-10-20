@@ -2,8 +2,15 @@
 // Created by seraphond on 14/10/16.
 //
 
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
 int main(){
     int i=0;
+
 
     switch (fork()){
         case -1:
@@ -13,10 +20,11 @@ int main(){
             for (i=0;i<100000000;i++){
                 /*trololo */
             }
-            printf("bouh");
+            printf("bouh\n");
             for (i=0;i<100000000;i++){
                 /*trololo */
             }
+            printf("proccessus %d est arrivé.\n",getpid());
             break;
         default:
             switch (fork()){
@@ -27,10 +35,11 @@ int main(){
                     for (i=0;i<100000000;i++){
                         /*trololo */
                     }
-                    printf("bouh");
+                    printf("bouh\n");
                     for (i=0;i<100000000;i++){
                         /*trololo */
                     }
+                    printf("proccessus %d est arrivé.\n",getpid());
                     break;
                 default:
                     switch (fork()){
@@ -41,10 +50,11 @@ int main(){
                             for (i=0;i<100000000;i++){
                                 /*trololo */
                             }
-                            printf("bouh");
+                            printf("bouh\n");
                             for (i=0;i<100000000;i++){
                                 /*trololo */
                             }
+                            printf("proccessus %d est arrivé.\n",getpid());
                             break;
                         default:
                             switch (fork()){
@@ -55,10 +65,11 @@ int main(){
                                     for (i=0;i<100000000;i++){
                                         /*trololo */
                                     }
-                                    printf("bouh");
+                                    printf("bouh\n");
                                     for (i=0;i<100000000;i++){
                                         /*trololo */
                                     }
+                                    printf("proccessus %d est arrivé.\n",getpid());
                                     break;
                                 default:
                                     switch (fork()){
@@ -69,10 +80,11 @@ int main(){
                                             for (i=0;i<100000000;i++){
                                                 /*trololo */
                                             }
-                                            printf("bouh");
+                                            printf("bouh\n");
                                             for (i=0;i<100000000;i++){
                                                 /*trololo */
                                             }
+                                            printf("proccessus %d est arrivé.\n",getpid());
                                             break;
                                         default:
                                             switch (fork()){
@@ -83,10 +95,11 @@ int main(){
                                                     for (i=0;i<100000000;i++){
                                                         /*trololo */
                                                     }
-                                                    printf("bouh");
+                                                    printf("bouh\n");
                                                     for (i=0;i<100000000;i++){
                                                         /*trololo */
                                                     }
+                                                    printf("proccessus %d est arrivé.\n",getpid());
                                                     break;
                                                 default:
                                                     switch (fork()){
@@ -97,10 +110,11 @@ int main(){
                                                             for (i=0;i<100000000;i++){
                                                                 /*trololo */
                                                             }
-                                                            printf("bouh");
+                                                            printf("bouh\n");
                                                             for (i=0;i<100000000;i++){
                                                                 /*trololo */
                                                             }
+                                                            printf("proccessus %d est arrivé.\n",getpid());
                                                             break;
                                                         default:
                                                             switch (fork()){
@@ -111,10 +125,11 @@ int main(){
                                                                     for (i=0;i<100000000;i++){
                                                                         /*trololo */
                                                                     }
-                                                                    printf("bouh");
+                                                                    printf("bouh\n");
                                                                     for (i=0;i<100000000;i++){
                                                                         /*trololo */
                                                                     }
+                                                                    printf("proccessus %d est arrivé.\n",getpid());
                                                                     break;
                                                                 default:
                                                                     switch (fork()){
@@ -125,10 +140,11 @@ int main(){
                                                                             for (i=0;i<100000000;i++){
                                                                                 /*trololo */
                                                                             }
-                                                                            printf("bouh");
+                                                                            printf("bouh\n");
                                                                             for (i=0;i<100000000;i++){
                                                                                 /*trololo */
                                                                             }
+                                                                            printf("proccessus %d est arrivé.\n",getpid());
                                                                             break;
                                                                         default:
                                                                             switch (fork()){
@@ -139,10 +155,11 @@ int main(){
                                                                                     for (i=0;i<100000000;i++){
                                                                                         /*trololo */
                                                                                     }
-                                                                                    printf("bouh");
+                                                                                    printf("bouh\n");
                                                                                     for (i=0;i<100000000;i++){
                                                                                         /*trololo */
                                                                                     }
+                                                                                    printf("proccessus %d est arrivé.\n",getpid());
                                                                                     break;
                                                                                 default:
                                                                                     break;
@@ -161,12 +178,25 @@ int main(){
                             }
                             break;
                     }
+
+
                     break;
             }
             /* afficher ls pid*/
-            wait(null);
+
+            wait(NULL);
+            wait(NULL);
+            wait(NULL);
+            wait(NULL);
+            wait(NULL);
+            wait(NULL);
+            wait(NULL);
+            wait(NULL);
+            wait(NULL);
+            wait(NULL);
             break;
 
     }
+
 
 }
