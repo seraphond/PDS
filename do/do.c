@@ -40,7 +40,7 @@ int main(int argc, char const *argv[]) {
                 break;
             /*Lance le exec donc n'execute plus la suite : pas de probleme avec le fork et la boucle for*/
             case 0:
-                execlp(argv[i],NULL);
+                execvp(argv[i],NULL);
                 exit(EXIT_FAILURE);
         }
         /*Stockage du pid*/
