@@ -6,9 +6,12 @@
 #include <getopt.h>
 #include <limits.h>
 #include <ctype.h>
+#include <search.h>
 
 static int opt_follow_link=1;
 static int opt_apparent_size=0;
+
+
 
 /* regarder les tables de hachage -> hcreate , hsearch hdestroy*/
 
@@ -68,8 +71,13 @@ int du_file(const char *pathname) {
 
         dir=opendir(pathname);
         /* faire  un assert*/
+
+    /* hachage */
+
+
+
         while((dire=readdir(dir))!=NULL){
-            if(!valid_name(dire->d_name)) { /* à définir au dessus*/
+            if(!valid_name(dire->d_name)) {
                 continue;
             }
             snprintf(path_entry,PATH_MAX,"%s/%s",pathname,dire->d_name);
@@ -89,6 +97,8 @@ int main(int argc,char* argv[]){
     char * pathname;
     int c;
     int bflag,Lflag=0;
+
+
 
     opterr=0;
     while((c=getopt(argc,argv,"bL"))!=-1) {
@@ -125,11 +135,13 @@ int main(int argc,char* argv[]){
     }
 
 
-
+    /*hcreate*/
 
    /* printf("test : %d \n test2:%d\n test3:%d\n",valid_name("."),valid_name(".."),valid_name("truc"));*/
 
     printf("%d\n",du_file(pathname));
 
+
+    /*hdestroy*/
     return EXIT_SUCCESS;
 }
