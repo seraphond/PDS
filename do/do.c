@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/wait.h>
 
 #define AND 1
 #define OR 0
@@ -10,6 +11,9 @@ int main(int argc, char const *argv[]) {
     int i,res,opt;
     int mode = AND;
     pid_t pid;
+    int j=1;
+
+
     /*Détermination du nombre d'option --XX en comptant le nom de la commande ./XX*/
     opt = 1;
     for (i = 0; i < argc; i++) {
@@ -17,8 +21,15 @@ int main(int argc, char const *argv[]) {
             opt++;
         }
     }
+
+
+    /*traitement des mullti-opt*/
+
+    for(j=1;j<argc;j++){
+
+    }
     printf("Il y a %d options.\n",opt);
-    /*ASSERTIONS :
+    /*AS1SERTIONS :
     forcement --and ou --or pour que ca marche
     et un argv
     */
