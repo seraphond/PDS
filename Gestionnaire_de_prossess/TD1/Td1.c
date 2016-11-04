@@ -16,9 +16,9 @@ static  struct job_s jobs[MAXJOB];
 
 int sigaction_wrapper(int signum,handler_t *handler){
     struct  sigaction act;
-    act.sahandler=handler;
-    __sigemptyset(&act.samask);
-    act.sa_flays=  ;
+    act.sa_handler=handler;
+    sigemptyset(&act.sa_mask);
+    act.sa_flays=SA_NODEFER ;
     if (sigaction(signum,&act,NULL)<0){
         unix_error("error sigaction wrapper");
 
@@ -32,7 +32,7 @@ void sigint(int sig){
     pid_t pid;
     if((pid=jobsfpid())>0){
         if(kill(pid,sig)<0){
-            unix_error("");
+            unix_error("erreur");
         }
     }
 }
