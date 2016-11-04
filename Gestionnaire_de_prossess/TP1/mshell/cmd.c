@@ -73,15 +73,20 @@ void do_bg(char **argv) {
 
 /* waitfg - Block until process pid is no longer the foreground process */
 void waitfg(pid_t pid) {
-    printf("waitfg : To be implemented\n");
-
+    sigsuspend(); //TODO : add a mask
     return;
 }
 
 /* do_fg - Execute the builtin fg command */
 void do_fg(char **argv) {
-    printf("do_fg : To be implemented\n");
-
+    struct job_t *j = treat_argv(argv);
+    if (j == NULL) {
+        fprintf(stderr, "Erreur de pointeur\n");
+        exit(EXIT_FAILURE);
+    }
+    kill(j->jb_pid,SIGCONT);
+    j->jb_state = FG;
+    waitfg(j->jb_pid);
     return;
 }
 
