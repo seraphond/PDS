@@ -22,9 +22,7 @@ int sigaction_wrapper(int signum, handler_t * handler) {
     act.sa_flags=SA_NODEFER ; //SA_RESTART
     if (sigaction(signum,&act,NULL)<0){
         unix_error("error sigaction wrapper");
-
     }
-
     return 0;
 
 }
@@ -38,8 +36,40 @@ int sigaction_wrapper(int signum, handler_t * handler) {
 void sigchld_handler(int sig) {
     if (verbose)
         printf("sigchld_handler: entering\n");
+    while ((child_pid=waitpid(-1,&status, WNOHANG|WUNTRACED))>0 ) {
+        /*s'est stoppé avec un signal*/
+        if (WIFSTOPPED(status)) {
+            struct job_t *j = jobs_getjobpid(child_pid);
+            if(!j){
+                fprintf(stderr, "error recup job 1\n");
+            }
+            j->state = ST;
+            fprintf(stdout, "Job [%d] (%d) stopped by signal %d\n",j->jb_jid,j->jb_pid,WSTOPSIG(status));
+        }
+        /* s'est stoppé avec un signal inconnu*/
+        else if (WIFSIGNALED(status)) {
+            struct job_t *j = jobs_getjobpid(child_pid);
+            if(!j){
+                fprintf(stderr, "error recup job 2\n");
+            }
+            j->state = ST;
+            fprintf(stdout, "Job [%d] (%d) stopped by unknown signal %d\n",j->jb_jid,j->jb_pid,WTERMSIG(status));
+            jobs_deletejob(child_pid);
+        }
+        /*  s'est stoppé naturellement */
+        else if (WIFEXITED(status)) {
+            struct job_t *j = jobs_getjobpid(child_pid);
+            if(!j){
+                fprintf(stderr, "error recup job 3\n");
+            }
+            fprintf(stdout, "Job [%d] (%d) stopped naturaly\n",j->jb_jid,j->jb_pid);
+            jobs_deletejob(child_pid);
+        }
+        else{
+            unix_error("waitpid error");
+        }
+    }
 
-    printf("sigchld_handler : To be implemented\n");
 
     if (verbose)
         printf("sigchld_handler: exiting\n");
