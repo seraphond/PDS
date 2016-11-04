@@ -1,0 +1,3 @@
+Normalement tout fonctionne , sauf que il y'a une erreur de segmentation au niveau de --kill
+et  le teste "./do --or false false && echo "Erreur: or false false a renvoyé true" " renvoie une erreur , sauf que il
+est pas censé la revoyer
