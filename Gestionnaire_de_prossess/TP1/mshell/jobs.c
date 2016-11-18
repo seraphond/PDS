@@ -75,7 +75,7 @@ int jobs_deletejob(pid_t pid) {
     for (i = 0; i < MAXJOBS; i++) {
         if (jobs[i].jb_pid == pid) {
             jobs_clearjob(&jobs[i]);
-            nextjid = jobs_maxjid(jobs) + 1;
+            nextjid = jobs_maxjid() + 1;
             return 1;
         }
     }

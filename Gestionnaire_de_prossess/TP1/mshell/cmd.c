@@ -85,6 +85,7 @@ void do_bg(char **argv) {
 /* waitfg - Block until process pid is no longer the foreground process */
 void waitfg(pid_t pid) {
 
+
     struct job_t *j ;
     int mask;
     j=jobs_getjobpid(pid);
@@ -111,6 +112,16 @@ void waitfg(pid_t pid) {
 
 /* do_fg - Execute the builtin fg command */
 void do_fg(char **argv) {
+    struct job_t *j = treat_argv(argv);
+    if (j == NULL) {
+        fprintf(stderr, "Erreur de pointeur\n");
+        exit(EXIT_FAILURE);
+    }
+    kill(j->jb_pid,SIGCONT);
+    j->jb_state = FG;
+    waitfg(j->jb_pid);
+    return;
+/*
     //TODO:do_fg:a verifier , mais normalment c'est bon
     struct job_t *j;
     j=treat_argv(**argv);
@@ -124,8 +135,7 @@ void do_fg(char **argv) {
     kill(j->jb_pid,SIGCONT);
     waitfg(j->jb_pid);
 
-
-
+*/
 }
 
 /* do_stop - Execute the builtin stop command */
