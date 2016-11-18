@@ -84,10 +84,7 @@ void do_bg(char **argv) {
 
 /* waitfg - Block until process pid is no longer the foreground process */
 void waitfg(pid_t pid) {
-<<<<<<< HEAD
-    sigsuspend(); //TODO : add a mask
-    return;
-=======
+
 
     struct job_t *j ;
     int mask;
@@ -111,12 +108,10 @@ void waitfg(pid_t pid) {
         /*sleep(1);problème le sleep peut être interrompu par n'importe quoi*/
     }
     sigprocmask(SIG_BLOCK,&masknormal,NULL);
->>>>>>> b3fb99848272a2204c0648f44ead4bbce1956e48
 }
 
 /* do_fg - Execute the builtin fg command */
 void do_fg(char **argv) {
-<<<<<<< HEAD
     struct job_t *j = treat_argv(argv);
     if (j == NULL) {
         fprintf(stderr, "Erreur de pointeur\n");
@@ -126,7 +121,7 @@ void do_fg(char **argv) {
     j->jb_state = FG;
     waitfg(j->jb_pid);
     return;
-=======
+/*
     //TODO:do_fg:a verifier , mais normalment c'est bon
     struct job_t *j;
     j=treat_argv(**argv);
@@ -140,9 +135,7 @@ void do_fg(char **argv) {
     kill(j->jb_pid,SIGCONT);
     waitfg(j->jb_pid);
 
-
-
->>>>>>> b3fb99848272a2204c0648f44ead4bbce1956e48
+*/
 }
 
 /* do_stop - Execute the builtin stop command */
