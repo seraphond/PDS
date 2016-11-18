@@ -19,7 +19,7 @@ int sigaction_wrapper(int signum, handler_t * handler) {
     struct  sigaction act;
     act.sa_handler=handler;
     sigemptyset(&act.sa_mask);
-    act.sa_flags=SA_NODEFER ; //SA_RESTART
+    act.sa_flags=SA_NODEFER ; /*SA_RESTART*/
     if (sigaction(signum,&act,NULL)<0){
         unix_error("error sigaction wrapper");
     }
@@ -34,6 +34,8 @@ int sigaction_wrapper(int signum, handler_t * handler) {
  *     available zombie children
  */
 void sigchld_handler(int sig) {
+    int child_pid;
+    int status;
     if (verbose)
         printf("sigchld_handler: entering\n");
     while ((child_pid=waitpid(-1,&status, WNOHANG|WUNTRACED))>0 ) {
@@ -43,7 +45,7 @@ void sigchld_handler(int sig) {
             if(!j){
                 fprintf(stderr, "error recup job 1\n");
             }
-            j->state = ST;
+            j->jb_state = ST;
             fprintf(stdout, "Job [%d] (%d) stopped by signal %d\n",j->jb_jid,j->jb_pid,WSTOPSIG(status));
         }
         /* s'est stoppé avec un signal inconnu*/
@@ -52,7 +54,7 @@ void sigchld_handler(int sig) {
             if(!j){
                 fprintf(stderr, "error recup job 2\n");
             }
-            j->state = ST;
+            j->jb_state = ST;
             fprintf(stdout, "Job [%d] (%d) stopped by unknown signal %d\n",j->jb_jid,j->jb_pid,WTERMSIG(status));
             jobs_deletejob(child_pid);
         }
@@ -86,7 +88,7 @@ void sigint_handler(int sig) {
     if (verbose)
         printf("sigint_handler: entering\n");
 
-    printf("sigint_handler : To be implemented\n");
+
 
     if (verbose)
         printf("sigint_handler: exiting\n");
@@ -102,7 +104,7 @@ void sigint_handler(int sig) {
 void sigtstp_handler(int sig) {
     if (verbose)
         printf("sigtstp_handler: entering\n");
-
+    //TODO:sigint
     printf("sigtstp_handler : To be implemented\n");
 
     if (verbose)

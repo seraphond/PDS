@@ -66,41 +66,107 @@ struct job_t *treat_argv(char **argv) {
 
 /* do_bg - Execute the builtin bg command */
 void do_bg(char **argv) {
-    printf("do_bg : To be implemented\n");
+    //TODO:do_bg:a verifier , mais normalment c'est bon
+    struct job_t *j;
+    j=treat_argv(**argv);
 
-    return;
+    if (j==NULL){
+        fprintf(stderr,"aucun job a mettre en arrière plan");
+        exit(EXIT_SUCCESS);
+    }
+
+    j->jb_state=BG;
+    kill(j->jb_pid,SIGSTOP);
+
+
+
 }
 
 /* waitfg - Block until process pid is no longer the foreground process */
 void waitfg(pid_t pid) {
-    printf("waitfg : To be implemented\n");
 
-    return;
+    struct job_t *j ;
+    int mask;
+    j=jobs_getjobpid(pid);
+
+    sigemptyset(&mask);
+    if (mask = 0){
+        fprintf(stderr,"erreur dans le mask");
+    }
+
+    sigaddset(mask,SIGCHLD);
+    if (mask = 0){
+        fprintf(stderr,"erreur dans le mask");
+    }
+    //j->job_getjobpid(pid);
+    sigprocmask(SIG_BLOCK,&masknormal,&mask);
+
+    while  (j->jb_state ==FG){
+
+        sigsuspend(&mask);
+        /*sleep(1);problème le sleep peut être interrompu par n'importe quoi*/
+    }
+    sigprocmask(SIG_BLOCK,&masknormal,NULL);
 }
 
 /* do_fg - Execute the builtin fg command */
 void do_fg(char **argv) {
-    printf("do_fg : To be implemented\n");
+    //TODO:do_fg:a verifier , mais normalment c'est bon
+    struct job_t *j;
+    j=treat_argv(**argv);
 
-    return;
+    if (j==NULL){
+        fprintf(stderr,"aucun job a mettre en premier plan");
+        exit(EXIT_SUCCESS);
+    }
+
+    j->jb_state=FG;
+    kill(j->jb_pid,SIGCONT);
+    waitfg(j->jb_pid);
+
+
+
 }
 
 /* do_stop - Execute the builtin stop command */
 void do_stop(char **argv) {
-    printf("do_stop : To be implemented\n");
 
-    return;
+    //TODO:do_stop:a verifier , mais normalment c'est bon
+    struct job_t *j;
+    j=treat_argv(**argv);
+
+    if (j==NULL){
+        fprintf(stderr,"aucun job a mettre en premier plan");
+        exit(EXIT_SUCCESS);
+    }
+
+    j->jb_state=ST;
+    kill(j->jb_pid,SIGTERM);
+    jobs_deletejob(j->jb_pid);
 }
 
 /* do_kill - Execute the builtin kill command */
 void do_kill(char **argv) {
-    printf("do_kill : To be implemented\n");
 
-    return;
+    //TODO: do_kill:a verifier , mais normalment c'est bon
+    struct job_t *j;
+    j=treat_argv(**argv);
+
+    if (j==NULL){
+        fprintf(stderr,"aucun job a mettre en killer plan");
+        exit(EXIT_SUCCESS);
+    }
+
+
+    kill(j->jb_pid,SIGKILL);
+    jobs_deletejob(j->jb_pid);
+
+
 }
 
 /* do_exit - Execute the builtin exit command */
 void do_exit() {
+    //TODO:do_exit
     printf("do_exit : To be implemented\n");
 
     return;
@@ -108,6 +174,7 @@ void do_exit() {
 
 /* do_jobs - Execute the builtin fg command */
 void do_jobs() {
+    //TODO:do_job
     printf("do_jobs : To be implemented\n");
 
     return;

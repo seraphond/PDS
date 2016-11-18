@@ -2,7 +2,7 @@
 
 CC      = gcc
 CFLAGS  = -g
-CFLAGS += -Wall -Werror -ansi -pedantic
+CFLAGS += -Wall  -pedantic
 CFLAGS += -D_XOPEN_SOURCE=500
 LDFLAGS = -g
 SRCS    = common.c sighandlers.c jobs.c cmd.c pipe.c mshell.c
