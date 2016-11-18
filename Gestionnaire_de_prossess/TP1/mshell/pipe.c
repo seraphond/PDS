@@ -20,10 +20,16 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
         case -1:
             perror(stderr,"erreur fork");
             exit(EXIT_FAILURE);
+            /*
+   * rediriger la sortie standard vers l'entrée de la 2eme cmd
+   */
         case 0:
             close(fd[0]);
             dup2(fd[1],STDOUT_FILENO);
             close(fd[1]); // close file descriptor as soon as possible
+            /* execute
+     *
+     */
             execvp(cmd1,argv[0]);
 
         default:
@@ -47,11 +53,8 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
     close(fd[1]);
     wait(NULL);
     wait(NULL);
-    /*
-     * rediriger la sortie standard vers l'entrée de la 2eme cmd
-     *
-     * execute
-     *
-     */
+
+
+
     return;
 }

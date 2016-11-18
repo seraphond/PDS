@@ -166,10 +166,29 @@ void do_kill(char **argv) {
 
 /* do_exit - Execute the builtin exit command */
 void do_exit() {
-    //TODO:do_exit
-    printf("do_exit : To be implemented\n");
 
-    return;
+    //TODO:do_exit
+    int i;
+    char** cmd;
+    char*  jid;
+    cmd[0]="stop";
+    cmd[1]="%";
+
+    for (i = 0; i < MAXJOBS; i++) {
+        if (jobs[i].jb_pid != 0) {
+            jid=job[i].jb_jid;
+            strcat(cmd[1],jid);
+            do_stop(cmd);
+            printf("[%d] (%d) exited", jobs[i].jb_jid, (int) jobs[i].jb_pid);
+        }
+    }
+
+    // une foit que tout est fermé  , fermer le terminal
+
+    exit(EXIT_SUCCESS);
+
+
+
 }
 
 /* do_jobs - Execute the builtin fg command */
