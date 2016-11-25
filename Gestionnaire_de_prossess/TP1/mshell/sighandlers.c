@@ -19,7 +19,7 @@ int sigaction_wrapper(int signum, handler_t * handler) {
     struct  sigaction act;
     act.sa_handler=handler;
     sigemptyset(&act.sa_mask);
-    act.sa_flags=SA_NODEFER ; /*SA_RESTART*/
+    act.sa_flags=/*SA_NODEFER ;*/SA_RESTART;
     if (sigaction(signum,&act,NULL)<0){
         unix_error("error sigaction wrapper");
     }

@@ -128,9 +128,9 @@ void eval(char *cmdline) {
     /* Parse command line */
     bg = parseline(cmdline, token, &nbcmd);
 
-    if (nbcmd > 1)              /* a command pipeline has been typed in */
-        do_pipe(token, nbcmd, bg);
-    else {                      /* no pipeline, only one command */
+    if (nbcmd > 1) {             /* a command pipeline has been typed in */
+         do_pipe(token, nbcmd, bg);
+    }else {                      /* no pipeline, only one command */
         argv = token[0];
         if (!builtin_cmd(argv)) {
             /*

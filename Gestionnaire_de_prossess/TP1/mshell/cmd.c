@@ -6,11 +6,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
 #include "jobs.h"
 
 #define BOLD "\033[00;01m"
 #define NORM "\033[00;00m"
+#define MAXJOBS      16              /* max jobs at any point in time */
+
 
 void do_help() {
     printf("available commands are:\n");
@@ -68,11 +69,11 @@ struct job_t *treat_argv(char **argv) {
 void do_bg(char **argv) {
     //TODO:do_bg:a verifier , mais normalment c'est bon
     struct job_t *j;
-    j=treat_argv(**argv);
+    j=treat_argv(argv);
 
     if (j==NULL){
         fprintf(stderr,"aucun job a mettre en arrière plan");
-        exit(EXIT_SUCCESS);
+        return;
     }
 
     j->jb_state=BG;
@@ -87,89 +88,88 @@ void waitfg(pid_t pid) {
 
 
     struct job_t *j ;
-    int mask;
+    sigset_t mask;
+    sigset_t masknormal;
+    int test;
     j=jobs_getjobpid(pid);
+    if(!j){
+        return;
+    }
 
-    sigemptyset(&mask);
-    if (mask = 0){
+    test=sigemptyset(&mask);
+    if (test != 0){
         fprintf(stderr,"erreur dans le mask");
     }
 
-    sigaddset(mask,SIGCHLD);
-    if (mask = 0){
+    sigaddset(&mask,SIGCHLD);
+    if (test !=0){
         fprintf(stderr,"erreur dans le mask");
     }
-    //j->job_getjobpid(pid);
-    sigprocmask(SIG_BLOCK,&masknormal,&mask);
+  //  j->job_getjobpid(pid);
+    sigprocmask(SIG_BLOCK,&mask,&masknormal);
 
-    while  (j->jb_state ==FG){
+    while (j->jb_pid == pid && j->jb_state == FG) {
+        /* Wait for a signal which isn't blocked in masknormal set, */
+        /* ignoring mask previously sets by sigprocmask calls, */
+        /* potentially catching some previous blocked signals */
+        /* (i.e. blocked SIGCHLD) */
+        sigsuspend(&masknormal);
+    }
 
-        sigsuspend(&mask);
         /*sleep(1);problème le sleep peut être interrompu par n'importe quoi*/
-    }
-    sigprocmask(SIG_BLOCK,&masknormal,NULL);
+
+    sigprocmask(SIG_SETMASK,&masknormal,NULL);
+
+    return;
 }
 
 /* do_fg - Execute the builtin fg command */
 void do_fg(char **argv) {
-    struct job_t *j = treat_argv(argv);
+    struct job_t *j ;
+    j=NULL;
+    j=treat_argv(argv);
     if (j == NULL) {
-        fprintf(stderr, "Erreur de pointeur\n");
-        exit(EXIT_FAILURE);
+      return;
     }
     kill(j->jb_pid,SIGCONT);
     j->jb_state = FG;
     waitfg(j->jb_pid);
     return;
-/*
-    //TODO:do_fg:a verifier , mais normalment c'est bon
-    struct job_t *j;
-    j=treat_argv(**argv);
 
-    if (j==NULL){
-        fprintf(stderr,"aucun job a mettre en premier plan");
-        exit(EXIT_SUCCESS);
-    }
-
-    j->jb_state=FG;
-    kill(j->jb_pid,SIGCONT);
-    waitfg(j->jb_pid);
-
-*/
 }
 
 /* do_stop - Execute the builtin stop command */
 void do_stop(char **argv) {
 
-    //TODO:do_stop:a verifier , mais normalment c'est bon
+
     struct job_t *j;
-    j=treat_argv(**argv);
+    j=treat_argv(argv);
 
     if (j==NULL){
-        fprintf(stderr,"aucun job a mettre en premier plan");
-        exit(EXIT_SUCCESS);
+        fprintf(stderr,"aucun job à arreter");
+        return;
     }
 
     j->jb_state=ST;
     kill(j->jb_pid,SIGTERM);
-    jobs_deletejob(j->jb_pid);
+
+    return;
 }
 
 /* do_kill - Execute the builtin kill command */
 void do_kill(char **argv) {
 
-    //TODO: do_kill:a verifier , mais normalment c'est bon
+
     struct job_t *j;
-    j=treat_argv(**argv);
+    j=treat_argv(argv);
 
     if (j==NULL){
         fprintf(stderr,"aucun job a mettre en killer plan");
         exit(EXIT_SUCCESS);
     }
+    kill(j->jb_pid, SIGCONT);
+    kill(j->jb_pid, SIGTERM);
 
-
-    kill(j->jb_pid,SIGKILL);
-    jobs_deletejob(j->jb_pid);
 
 
 }
@@ -177,34 +177,19 @@ void do_kill(char **argv) {
 /* do_exit - Execute the builtin exit command */
 void do_exit() {
 
-    //TODO:do_exit
-    int i;
-    char** cmd;
-    char*  jid;
-    cmd[0]="stop";
-    cmd[1]="%";
 
-    for (i = 0; i < MAXJOBS; i++) {
-        if (jobs[i].jb_pid != 0) {
-            jid=job[i].jb_jid;
-            strcat(cmd[1],jid);
-            do_stop(cmd);
-            printf("[%d] (%d) exited", jobs[i].jb_jid, (int) jobs[i].jb_pid);
-        }
-    }
+    kill(getpid(), 15);
 
-    // une foit que tout est fermé  , fermer le terminal
-
-    exit(EXIT_SUCCESS);
-
+    return;
 
 
 }
 
 /* do_jobs - Execute the builtin fg command */
 void do_jobs() {
-    //TODO:do_job
-    printf("do_jobs : To be implemented\n");
+
+    jobs_listjobs();
 
     return;
+
 }

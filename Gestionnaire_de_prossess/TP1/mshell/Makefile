@@ -5,8 +5,8 @@ CFLAGS  = -g
 CFLAGS += -Wall  -pedantic
 CFLAGS += -D_XOPEN_SOURCE=500
 LDFLAGS = -g
-SRCS    = common.c sighandlers.c jobs.c cmd.c pipe.c mshell.c
-OBJS    = common.o sighandlers.o jobs.o cmd.o pipe.o mshell.o
+SRCS    = common.c sighandlers.c jobs.c cmd.c mshell.c pipe.c 
+OBJS    = common.o sighandlers.o jobs.o cmd.o mshell.o pipe.o 
 EXEC    = mshell
 
 # main entries
