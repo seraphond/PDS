@@ -25,7 +25,7 @@ sighandlers.o: sighandlers.c jobs.h common.h sighandlers.h
 # misc
 .PHONY: clean realclean
 clean:
-	rm -f $(OBJS) *~
+	rm -f $(OBJS) mshell *~
 
 realclean: clean
 	rm -f $(EXEC)
