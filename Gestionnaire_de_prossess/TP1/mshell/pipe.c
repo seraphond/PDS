@@ -11,10 +11,12 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
     int i,j;
     int pipes[MAXCMDS][2];
 
-
-    for(i = 0; i < nbcmd; i++){
+    //On a besoin de nbcmd - 1 pipe pour les comm
+    for(i = 0; i < nbcmd-1; i++){
         pipe(pipes[i]);
     }
+
+    //Premier fils où on ne connecte que la sortie au pipe
     switch(fork()){
         case -1:
             perror("Erreur fork debut");
@@ -26,6 +28,7 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
         default:
             break;
     }
+    //Fils intermediaires où on connecte l'entrée et la sortie
     for (i = 1; i < nbcmd-1; i++) {
         switch (fork()){
             case -1:
@@ -41,6 +44,7 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
                 break;
         }
     }
+    //Dernier fils ou on ne connecte que l'entrée
     switch(fork()){
         case -1:
             perror("Erreur fork fin");
@@ -52,10 +56,10 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
         default:
             break;
     }
+    //On attends tout le monde
     for (j = 0; j < nbcmd; ++j) {
         wait(NULL);
     }
-    free(pipes);
     return;
 }
 
