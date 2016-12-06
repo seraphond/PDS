@@ -1,19 +1,19 @@
 CC      = gcc
 ## Options pour la compilation
-CFLAGS  = -Wall -Werror -ansi -pedantic
+CFLAGS  = -Wall -Werror 
 CFLAGS += -D_XOPEN_SOURCE=500
 CFLAGS += -g
 
-all: realclean mtail-16 mtail-17-18
+all: realclean mtail-16.beta mtail-17-18.beta
 
-exe:
-	./mtail-17-18 mtail-16.c 8
+test:
+	./mtail-17-18.beta mtail-16.c 8
 
-mtail-16:
-	${CC} ${CFLAGS} -o mtail-16 mtail-16.c
+mtail-16.beta:
+	${CC} ${CFLAGS} -o mtail-16.beta mtail-16.c
 
-mtail-17-18:
-	${CC} ${CFLAGS} -o mtail-17-18 mtail-17-18.c
+mtail-17-18.beta:
+	${CC} ${CFLAGS} -o mtail-17-18.beta mtail-17-18.c
 
 realclean:
 	rm *.beta || true
