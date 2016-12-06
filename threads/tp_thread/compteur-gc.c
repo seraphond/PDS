@@ -6,6 +6,27 @@
 #include <unistd.h>
 #include <time.h>
 #include <assert.h>
+#include <pthread.h>
+
+typedef struct  {
+    char * buf;
+    int size;
+}res_s;
+
+void * my_compteur_gc(void * arg) {
+    int total;
+    total=0;
+    res_s *args= (res_s) *arg;
+    for(int i=0;i<args->size;i++){
+        if((args->buf[i]=='G')||(args->buf[i]=='C')){
+            total++;
+        }
+    }
+    return  (void*)total;
+
+
+
+}
 
 unsigned long compteur_gc(char *bloc, unsigned long taille) {
     unsigned long i, cptr = 0;
@@ -19,12 +40,20 @@ unsigned long compteur_gc(char *bloc, unsigned long taille) {
 
 int main(int argc, char *argv[]) {
     struct stat st;
+    int argv2;
     int fd;
+    int status;
+    int *resu;
     char *tampon;
     int lus;
     unsigned long cptr = 0;
+    res_s *dataTab;
+    pthread_t *tab;
+    res_s truc;
     off_t taille = 0;
     struct timespec debut, fin;
+
+    argv2=atoi(argv[2]);
 
     assert(argv[1] != NULL);
 
@@ -42,9 +71,39 @@ int main(int argc, char *argv[]) {
     assert(taille == st.st_size);
     close(fd);
 
-    /* Calcul proprement dit */
+
     assert(clock_gettime(CLOCK_MONOTONIC, &debut) != -1);
-    cptr = compteur_gc(tampon, taille);
+    /*découpage */
+    tab=malloc(argv2*sizeof(pthread_t)+1);
+    dataTab=malloc(argv2*sizeof(res_s)+1);
+    resu=malloc(argv2*sizeof(int)+1);
+
+    for (int j=0;j<argv2;j++){ /*  */
+        dataTab[j]=truc;
+    }
+/*Initialisation des thread*/
+    for(int i =0; i<argv2;i++){
+        status = pthread_create(tab+i,NULL,my_compteur_gc,(void*) dataTab+i);//Manque l'argument de my compteur
+        if(!status){
+            perror("Error init pthread");
+            exit(EXIT_FAILURE);
+        }
+    }
+    /* Calcul proprement dit */
+
+    /*Calcul*/
+    for(int i =0; i<argv2;i++){
+        status = pthread_join(tab[i],(void*)resu+i);//Manque le truc de renvoie
+        if(!status){
+            perror("Error exec pthread");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    for(int k=0;k<argv2;k++){
+        cptr+=(int)resu[k];
+    }
+    /*cptr = compteur_gc(tampon, taille);*/
     assert(clock_gettime(CLOCK_MONOTONIC, &fin) != -1);
 
     /* Affichage des résultats */
