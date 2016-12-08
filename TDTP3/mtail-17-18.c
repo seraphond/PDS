@@ -114,7 +114,7 @@ void tail_before_pos(int fd, unsigned int pos, int ntail){
 }
 
 void tail(const char * pathname, int ntail){
-
+    printf("%s\n",pathname );
     int fd = open(pathname,O_RDONLY);
     if (fd == -1) {
         printf("Problème lors de l'ouverture du fichier");
@@ -146,5 +146,3 @@ int main(int argc, char *argv[]) {
     tail(pathname,ntail);
     return 0;
 }
-
-    Contact GitHub API Training Shop Blog About

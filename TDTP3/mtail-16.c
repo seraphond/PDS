@@ -116,7 +116,3 @@ int main(int argc, char *argv[]) {
     }
     return easytail(pathname,nb_ligne_voulu );
 }
-
-    Contact GitHub API Training Shop Blog About
-
-    © 2016 GitHub, Inc. Terms Privacy Security Status Help
