@@ -14,15 +14,15 @@ typedef struct  {
 }res_s;
 
 void * my_compteur_gc(void * arg) {
-    int total;
+    long int total;
     total=0;
-    res_s *args= (res_s) *arg;
+    res_s *args= (res_s*) arg;
     for(int i=0;i<args->size;i++){
         if((args->buf[i]=='G')||(args->buf[i]=='C')){
             total++;
         }
     }
-    return  (void*)total;
+    return (void*) total;
 
 
 
@@ -77,7 +77,8 @@ int main(int argc, char *argv[]) {
     tab=malloc(argv2*sizeof(pthread_t)+1);
     dataTab=malloc(argv2*sizeof(res_s)+1);
     resu=malloc(argv2*sizeof(int)+1);
-
+    truc.size = 0;
+    truc.buf = NULL;
     for (int j=0;j<argv2;j++){ /*  */
         dataTab[j]=truc;
     }

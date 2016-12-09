@@ -101,7 +101,7 @@ void waitfg(pid_t pid) {
         fprintf(stderr,"erreur dans le mask");
     }
 
-    sigaddset(&mask,SIGCHLD);
+    test = sigaddset(&mask,SIGCHLD);
     if (test !=0){
         fprintf(stderr,"erreur dans le mask");
     }
@@ -185,7 +185,7 @@ void do_exit() {
 
 }
 
-/* do_jobs - Execute the builtin fg command */
+/* do_jobs  */
 void do_jobs() {
 
     jobs_listjobs();
