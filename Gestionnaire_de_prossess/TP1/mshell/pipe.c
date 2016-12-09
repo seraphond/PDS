@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include "pipe.h"
 #include <sys/wait.h>
-
+/*
 void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
 
     int i,j;
@@ -62,8 +62,8 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
     }
     return;
 }
-
-/*void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
+*/
+void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
 
     int pid;
     int fd[2];
@@ -103,4 +103,6 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
     wait(NULL);
 
     return;
-}*/
+
+
+}
