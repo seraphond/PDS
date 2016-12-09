@@ -26,6 +26,8 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
             close(pipes[0][1]);
             execvp(cmds[0][0],cmds[0]);
         default:
+            close(pipes[0][1]);
+            close(pipes[0][0]);
             break;
     }
     //Fils intermediaires où on connecte l'entrée et la sortie
@@ -41,6 +43,8 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
                 close(pipes[i][1]);
                 execvp(cmds[i][0],cmds[i]);
             default:
+                close(pipes[i][0]);
+                close(pipes[i][1]);
                 break;
         }
     }
@@ -54,6 +58,8 @@ void do_pipe(char *cmds[MAXCMDS][MAXARGS], int nbcmd, int bg) {
             close(pipes[i][0]);
             execvp(cmds[nbcmd-1][0],cmds[nbcmd-1]);
         default:
+            close(pipes[i][0]);
+            close(pipes[i][1]);
             break;
     }
     //On attends tout le monde
